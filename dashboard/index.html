@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Smart water meter with NB-IoT</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Bootstrap core CSS -->
+  <link href="./src/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="./src/css/style.css" rel="stylesheet">
+  <link href="./src/css/w3.css" rel="stylesheet">
+  <link href="./src/css/modal.css" rel="stylesheet">
+
+  <style>
+  /* Load San francisco font from apple  */
+      @font-face {
+        font-family: "San Francisco Display Ultralight";
+        font-style: normal;
+        src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.ttf) format("truetype"), url("fonts/sanfrancisco/sanfranciscodisplay-ultralight-webfont.svg#San Francisco Display Ultralight") format("svg")
+      }
+
+      @font-face {
+        font-family: "San Francisco Display Thin";
+        font-style: normal;
+        src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.ttf) format("truetype"), url("fonts/sanfrancisco/sanfranciscodisplay-thin-webfont.svg#San Francisco Display Thin") format("svg")
+      }
+
+      @font-face {
+        font-family: "San Francisco Display Medium";
+        font-style: normal;
+        src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.ttf) format("truetype"), url("fonts/sanfrancisco/sanfranciscodisplay-medium-webfont.svg#San Francisco Display Medium") format("svg")
+      }
+
+      @font-face {
+        font-family: "San Francisco Display Semibold";
+        font-style: normal;
+        src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.ttf) format("truetype"), url("fonts/sanfrancisco/sanfranciscodisplay-semibold-webfont.svg#San Francisco Display Semibold") format("svg")
+      }
+
+      @font-face {
+        font-family: "San Francisco Display Bold";
+        font-style: normal;
+        src: url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.eot?#iefix) format("embedded-opentype"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff2) format("woff2"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.woff) format("woff"), url(https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.ttf) format("truetype"), url("fonts/sanfrancisco/sanfranciscodisplay-bold-webfont.svg#San Francisco Display Bold") format("svg")
+      }
+    body{
+
+    }
+    h1,h2,h3,h4,h5{
+      font-family: "San Francisco Display Medium";
+    }
+    span{
+      font-family: "San Francisco Display Medium";
+    }
+
+    #volume_accum_chart{
+      width: 100%;
+      height: 300px;
+      background-color: white;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    #flow_rate_label{
+      width: 100%;
+      height: 300px;
+      background-color: rgb(64,134,244);
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+    .flow-rate-name-span{
+      position: relative;
+      left: 10px;
+      top: 0px;
+      font-size: 12px;
+      color: white;
+    }
+    .flow-rate-data-span{
+      position: relative;
+      left: 0px;
+      top: 120px;
+      font-size: 70px;
+      color: white;
+    }
+
+
+
+    /* ##################### RESPONSIVE ########################3*/
+
+      /* From size iPhone 5/SE : Portrait */
+      @media only screen and (min-device-width : 320px) and (max-device-width : 568px) and (orientation : portrait){
+
+      }
+
+      /* From size smaller than iPhone 5/SE : Lanscape */
+      @media only screen and (min-device-width : 320px) and (max-device-width : 568px) and (orientation : landscape){
+
+      }
+
+      /* For iPhone 6,7,8 : Portrait */
+      @media only screen and (min-device-width : 375px) and (max-device-width : 667px) and (orientation : portrait){
+
+      }
+
+      /* For iPhone 6,7,8 : Landscape */
+      @media only screen and (min-device-width : 375px) and (max-device-width : 667px) and (orientation : landscape){
+
+      }
+
+      /* For iPhone X : Portrait */
+      @media only screen and (min-device-width : 375px) and (max-device-width : 812px) and (-webkit-device-pixel-ratio : 3) and (orientation : portrait){
+
+      }
+
+      /* For iPhone X : Landscape */
+      @media only screen and (min-device-width : 375px) and (max-device-width : 812px) and (-webkit-device-pixel-ratio : 3) and (orientation : landscape){
+
+      }
+
+      /* For iPad mini : Portrait */
+      @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 1){
+
+      }
+
+      /* For iPad mini : Landscape */
+      @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1){
+
+      }
+  </style>
+</head>
+<body>
+
+<!--div align="center">
+  <h4>Smart water meter with NB-IoT (with Super Capacitor)</h4>
+</div>
+
+<div class="w3-row-padding">
+  <div class="w3-col m6">
+    <canvas id="volume_chart" width="400" height="300"></canvas>
+  </div>
+  <div class="w3-col m6">
+    <canvas id="capperc_chart" width="400" height="300"></canvas>
+  </div>
+</div>
+
+<div class="w3-row-padding">
+  <div class="w3-col m12" align="center">
+    <div id="supercap_calendar" style="width: 1000px; height: 200px; margin-top:30px;"></div>
+  </div>
+</div-->
+
+<div align="center" style="background-color:#ccc;">
+  <h4>Smart water meter with NB-IoT (with Solarcell and Backup battery)</h4>
+</div>
+
+<div class="w3-row-padding" style="background-color:#ccc; margin-bottom:0px;">
+  <div class="w3-col m6">
+    <canvas id="volume_solar_chart" width="400" height="300"></canvas>
+  </div>
+  <div class="w3-col m6">
+    <canvas id="total_vol_solar_chart" width="400" height="300"></canvas>
+  </div>
+</div>
+
+<!--div class="w3-row-padding" style="background-color:#ccc; margin-bottom:0px;">
+  <div class="w3-col m6">
+    <canvas id="battery_voltage_chart" width="400" height="300"></canvas>
+  </div>
+  <div class="w3-col m6">
+    <canvas id="solar_power_chart" width="400" height="300"></canvas>
+  </div>
+</div-->
+
+<div class="w3-row-padding" style="background-color:#ccc; margin-bottom:20px;">
+  <div class="w3-col m12" align="center">
+    <div id="solar_calendar" style="width: 1000px; height: 200px; margin-top:30px;"></div>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script src="./src/js/jquery-3.0.0.min.js"></script>
+<script src="./src/js/jquery-ui.1.12.1.min.js"></script>
+<script src="./src/js/moment.js"></script>
+<script src="./src/js/Chart.min.js"></script>
+<script src="./src/js/socket.io.js"></script>
+
+<script src="./src/js/main.js"></script>
+
+<script>
+//..
+</script>
+
+</body>
+</html>
